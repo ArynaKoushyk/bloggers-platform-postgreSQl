@@ -29,6 +29,20 @@ export class CoreConfig {
   })
   readonly mongoURI: string;
 
+  @IsNotEmpty({ message: 'DB_HOST must not be empty' })
+  readonly dbHost: string;
+
+  @IsInt({ message: 'DB_PORT must be an integer' })
+  @Min(1)
+  @Max(65535)
+  readonly dbPort: number;
+
+  @IsNotEmpty({ message: 'DB_USERNAME must not be empty' })
+  readonly dbUsername: string;
+
+  @IsNotEmpty({ message: 'Set Env variable DB_PASSWORD' })
+  readonly dbPassword: string;
+
   @IsNotEmpty({ message: 'Set Env variable DB_NAME' })
   readonly dbName: string;
 
@@ -54,6 +68,10 @@ export class CoreConfig {
   constructor(configService: ConfigService) {
     this.port = Number(configService.getOrThrow<string>('PORT'));
     this.mongoURI = configService.getOrThrow<string>('MONGO_URL');
+    this.dbHost = configService.get<string>('DB_HOST') ?? 'localhost';
+    this.dbPort = Number(configService.get<string>('DB_PORT') ?? '5432');
+    this.dbUsername = configService.get<string>('DB_USERNAME') ?? 'postgres';
+    this.dbPassword = configService.getOrThrow<string>('DB_PASSWORD');
     this.dbName = configService.getOrThrow<string>('DB_NAME');
     this.env = configService.getOrThrow<Environments>('NODE_ENV');
 

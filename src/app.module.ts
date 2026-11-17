@@ -7,6 +7,7 @@ import { UserAccountsModule } from './modules/user-accounts/user-accounts.module
 import { TestingModule } from './modules/testing/testing.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CoreConfig, Environments } from './core/core.config';
+import { DatabaseModule } from './core/database/database.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CoreConfig, Environments } from './core/core.config';
     UserAccountsModule,
     CqrsModule.forRoot(),
     configModule,
+    DatabaseModule,
   ],
 })
 export class AppModule {
